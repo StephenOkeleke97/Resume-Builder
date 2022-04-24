@@ -53,6 +53,7 @@ h1 {
   opacity: 0;
   visibility: hidden;
   transition: all 0.1s ease-in;
+  background-color: #fff;
 }
 
 .options-open {
@@ -134,15 +135,30 @@ h1 {
 }
 
 .contact {
-  padding: 10px 30px;
+  padding: 0px 30px;
   background-color: rgb(243, 243, 243);
   -webkit-print-color-adjust: exact;
 }
 
-.contact > p {
+.contact-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.contact-add {
+  padding: 10px 0;
+}
+
+.contact-tools {
+  display: flex;
+  align-items: center;
+}
+
+.contact-tools > p {
   font-size: 12px;
   color: dodgerblue;
   cursor: pointer;
+  margin-right: 10px;
 }
 
 .contact-input {
@@ -215,13 +231,34 @@ h1 {
   cursor: pointer;
 }
 
-.contact-add {
+.contact-add-button {
   width: 100%;
   height: 35px;
   border: none;
   background-color: dodgerblue;
   border-radius: 4px;
   color: #fff;
+}
+
+.contact-item-container {
+  width: 50%;
+}
+
+.contact-item {
+  display: flex;
+  /* align-items: center; */
+  padding: 10px;
+  height: 40px;
+}
+
+.contact-item p {
+  margin-left: 10px;
+}
+
+.contact-item a {
+  margin-left: 10px;
+  margin-top: 3px;
+  cursor: pointer;
 }
 
 @media print {
