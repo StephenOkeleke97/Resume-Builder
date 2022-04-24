@@ -91,7 +91,7 @@ h1 {
   align-items: center;
   background-color: black;
   color: #fff;
-  top: 40px;
+  top: 20%;
 }
 
 .header-image {
@@ -138,6 +138,7 @@ h1 {
   padding: 0px 30px;
   background-color: rgb(243, 243, 243);
   -webkit-print-color-adjust: exact;
+  position: relative;
 }
 
 .contact-container {

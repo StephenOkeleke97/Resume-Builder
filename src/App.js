@@ -7,9 +7,9 @@ import uuid from "react-uuid";
 function App() {
   const [showSections, setShowSections] = useState(false);
   const sectionsOptions = useRef(null);
-  const [children, setChildren] = useState([]);
+  const [childrenList, setChildrenList] = useState([]);
   const childrenRef = useRef();
-  childrenRef.current = children;
+  childrenRef.current = childrenList;
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -68,14 +68,19 @@ function App() {
   ];
 
   function createHeader() {
-    setChildren([
-      ...children,
-      <Header id={uuid()} remove={removeFromChildren} />,
+    const id = uuid();
+    setChildrenList([
+      ...childrenList,
+      <Header key={id} id={id} remove={removeFromChildren} />,
     ]);
   }
 
   function createContact() {
-    setChildren([...children, <Contact />]);
+    const id = uuid();
+    setChildrenList([
+      ...childrenList,
+      <Contact key={id} id={id} remove={removeFromChildren} />,
+    ]);
   }
 
   function createDescription() {}
@@ -87,7 +92,7 @@ function App() {
   function removeFromChildren(id) {
     let temp = [...childrenRef.current];
     temp = temp.filter((elem) => elem.props.id !== id);
-    setChildren(temp);
+    setChildrenList(temp);
   }
 
   return (
@@ -128,8 +133,8 @@ function App() {
       </div>
 
       <div className="resume">
-        {children.map((child) => {
-          return <div key={uuid()}>{child}</div>;
+        {childrenList.map((child) => {
+          return child;
         })}
       </div>
     </div>

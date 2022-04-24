@@ -7,7 +7,7 @@ import { AiFillGithub } from "react-icons/ai";
 import LinkedContactItem from "./contactwidgets/LinkedContactItem";
 import { VscColorMode } from "react-icons/vsc";
 
-const Contact = () => {
+const Contact = ({ id, remove }) => {
   const defaultType = "Email";
   const [type, setType] = useState(defaultType);
   const [contactInfo, setContactInfo] = useState("");
@@ -147,12 +147,12 @@ const Contact = () => {
           Add
         </p>
 
-        <label htmlFor="iconcolor" className="clickable">
+        <label htmlFor={"iconcolor" + id} className="clickable">
           <VscColorMode />
         </label>
         <input
           type={"color"}
-          id="iconcolor"
+          id={"iconcolor" + id}
           value={iconColor}
           onChange={(e) => {
             icons.current.forEach((icon) => {
@@ -217,6 +217,10 @@ const Contact = () => {
           </div>
         </div>
       </Modal>
+
+      <div className="remove no-print" onClick={() => remove(id)}>
+        <AiOutlineClose />
+      </div>
     </div>
   );
 };
