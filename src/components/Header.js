@@ -1,16 +1,78 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { VscColorMode } from "react-icons/vsc";
+import { AiOutlineClose } from "react-icons/ai";
 
-const Header = () => {
+const Header = ({ remove, index }) => {
+  const nameInput = useRef(null);
+  const titleInput = useRef(null);
+  const descInput = useRef(null);
+  const descPrint = useRef(null);
+
   const [nameColor, setNameColor] = useState("#000");
   const [titleColor, setTitleColor] = useState("#8e8e8e");
 
+  const [name, setName] = useState("Your Name");
+  const [title, setTitle] = useState("Yout Title");
+  const [description, setDescription] = useState("Summary");
+
+  const colorIconColor = "dodgerblue";
+
+  useEffect(() => {
+    function resizeInput(event) {
+      if (this.current)
+        this.current.style.width = event.target.value.length + 1 + "ch";
+    }
+
+    nameInput.current.addEventListener("input", resizeInput);
+    titleInput.current.addEventListener("input", resizeInput);
+  }, []);
+
+  useEffect(() => {
+    descInput.current.style.height = descInput.current.scrollHeight + "px";
+
+    function resizeTextArea() {
+      this.style.height = this.scrollHeight + "px";
+    }
+
+    function handleBeforePrint() {
+      descInput.current.style.display = "none";
+      descPrint.current.innerHTML = description;
+    }
+
+    function handleAfterPrint() {
+      descInput.current.style.display = "block";
+      descPrint.current.innerHTML = "";
+    }
+
+    descInput.current.addEventListener("input", resizeTextArea);
+    window.addEventListener("beforeprint", handleBeforePrint);
+    window.addEventListener("afterprint", handleAfterPrint);
+
+    return () => {};
+  }, []);
+
   const nameStyle = {
     color: nameColor,
+    fontSize: "30px",
+    fontWeight: "500",
+    width: name.length + 1 + "ch",
   };
 
   const titleStyle = {
     color: titleColor,
+    fontWeight: "400",
+    fontSize: "20px",
+    width: title.length + 1 + "ch",
+    marginBottom: "8px",
+  };
+
+  const descriptionStyle = {
+    width: "100%",
+    resize: "none",
+    border: "none",
+    textAlign: "justify",
+    outline: "none",
+    fontSize: "14px",
   };
 
   return (
@@ -21,11 +83,19 @@ const Header = () => {
 
       <div className="header-description">
         <div className="header-editable">
-          <h1 style={nameStyle}>Michael Levinson</h1>
+          <input
+            type={"text"}
+            value={name}
+            style={nameStyle}
+            ref={nameInput}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+          />
 
           <div className="no-print">
             <label htmlFor="namecolor">
-              <VscColorMode color="dodgerblue" />
+              <VscColorMode color={colorIconColor} />
             </label>
             <input
               type={"color"}
@@ -34,16 +104,25 @@ const Header = () => {
               onChange={(e) => {
                 setNameColor(e.target.value);
               }}
+              className="color-input"
             />
           </div>
         </div>
 
         <div className="header-editable">
-          <h2 style={titleStyle}>Senior Software Engineer</h2>
+          <input
+            type={"text"}
+            value={title}
+            style={titleStyle}
+            ref={titleInput}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
+          />
 
           <div className="no-print">
             <label htmlFor="titlecolor">
-              <VscColorMode color="dodgerblue" />
+              <VscColorMode color={colorIconColor} />
             </label>
             <input
               type={"color"}
@@ -52,20 +131,26 @@ const Header = () => {
               onChange={(e) => {
                 setTitleColor(e.target.value);
               }}
+              className="color-input"
             />
           </div>
         </div>
 
-        <p>
-          Seasoned, forward-looking Software Engineer with 14+ years' background
-          in creating and executing innovative software solutions to enhance
-          business productivity. Highly experienced in all aspects of the
-          software development lifecycle and end-to-end project management, from
-          concept through developmebt and delivery. Consistently recognized as a
-          hands-on and competent leader, skilled at coordinating
-          cross-functional teams in a fast-paced, deadline-driven environment to
-          steer timely project completion within budgetary constraints
-        </p>
+        <div className="header-editable">
+          <textarea
+            value={description}
+            style={descriptionStyle}
+            onChange={(e) => {
+              setDescription(e.target.value);
+            }}
+            ref={descInput}
+          />
+          <p ref={descPrint}></p>
+        </div>
+      </div>
+
+      <div className="remove no-print" onClick={() => remove(index)}>
+        <AiOutlineClose />
       </div>
     </div>
   );

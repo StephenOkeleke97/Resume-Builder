@@ -8,7 +8,7 @@
 }
 
 p {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 h1 {
@@ -34,6 +34,7 @@ h1 {
   bottom: 15%;
   right: 10%;
   cursor: pointer;
+  z-index: 2;
 }
 
 .section-options {
@@ -70,11 +71,22 @@ h1 {
 .header {
   padding: 40px 0;
   display: flex;
+  position: relative;
 }
 
-.header h2 {
-    font-weight: 400;
-    font-size: 22px;
+.remove {
+  position: absolute;
+  right: 50px;
+  cursor: pointer;
+  height: 20px;
+  width: 20px;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  color: #fff;
+  top: 40px;
 }
 
 .header-image {
@@ -86,8 +98,8 @@ h1 {
 }
 
 .header-description {
-    width: calc(100vw - 300px);
-    text-align: justify;
+  width: calc(100vw - 300px);
+  text-align: justify;
 }
 
 .header-image img {
@@ -95,20 +107,26 @@ h1 {
 }
 
 .header-editable {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
-.header-editable h1, .header-editable h2 {
-    margin-right: 10px;
+.header-editable h1,
+.header-editable h2 {
+  margin-right: 10px;
 }
 
-.header-editable input {
-    visibility: hidden;
+.color-input {
+  visibility: hidden;
 }
 
 .header-editable label {
-    cursor: pointer;
+  cursor: pointer;
+}
+
+.header-editable input[type="text"] {
+  border: none;
+  outline: none;
 }
 
 @media print {

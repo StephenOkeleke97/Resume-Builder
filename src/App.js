@@ -64,7 +64,10 @@ function App() {
   ];
 
   function createHeader() {
-    setChildren([...children, <Header />]);
+    setChildren([
+      ...children,
+      <Header index={children.length + 1} remove={removeFromChildren} />,
+    ]);
   }
 
   function createContact() {}
@@ -74,6 +77,12 @@ function App() {
   function createTiles() {}
 
   function createLanguage() {}
+
+  function removeFromChildren(index) {
+    const temp = children;
+    temp.slice(index, 1);
+    setChildren(temp);
+  }
 
   return (
     <div className="App">
