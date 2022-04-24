@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
+import Contact from "./components/Contact";
 import Header from "./components/Header";
 
 function App() {
@@ -70,7 +71,9 @@ function App() {
     ]);
   }
 
-  function createContact() {}
+  function createContact() {
+    setChildren([...children, <Contact />]);
+  }
 
   function createDescription() {}
 
@@ -96,12 +99,9 @@ function App() {
         </a>
       </div>
 
-      <div
-        className="create-section no-print"
-        onClick={() => setShowSections(true)}
-        ref={sectionsOptions}
-      >
-        <AiOutlinePlus size={30} />
+      <div className="create-section no-print" ref={sectionsOptions}>
+        <AiOutlinePlus size={30} onClick={() => setShowSections(true)} 
+        className={"clickable"}/>
 
         <div className={`section-options ${showSections && "options-open"}`}>
           {sections.map((section, index) => {
