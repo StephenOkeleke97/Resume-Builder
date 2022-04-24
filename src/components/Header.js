@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { VscColorMode } from "react-icons/vsc";
 import { AiOutlineClose } from "react-icons/ai";
 
-const Header = ({ remove, index }) => {
+const Header = ({ remove, id }) => {
   const nameInput = useRef(null);
   const titleInput = useRef(null);
   const descInput = useRef(null);
@@ -94,12 +94,12 @@ const Header = ({ remove, index }) => {
           />
 
           <div className="no-print">
-            <label htmlFor="namecolor">
+            <label htmlFor={"name" + id}>
               <VscColorMode color={colorIconColor} />
             </label>
             <input
               type={"color"}
-              id="namecolor"
+              id={"name" + id}
               value={nameColor}
               onChange={(e) => {
                 setNameColor(e.target.value);
@@ -121,12 +121,12 @@ const Header = ({ remove, index }) => {
           />
 
           <div className="no-print">
-            <label htmlFor="titlecolor">
+            <label htmlFor={"title" + id}>
               <VscColorMode color={colorIconColor} />
             </label>
             <input
               type={"color"}
-              id="titlecolor"
+              id={"title" + id}
               value={titleColor}
               onChange={(e) => {
                 setTitleColor(e.target.value);
@@ -149,7 +149,7 @@ const Header = ({ remove, index }) => {
         </div>
       </div>
 
-      <div className="remove no-print" onClick={() => remove(index)}>
+      <div className="remove no-print" onClick={() => remove(id)}>
         <AiOutlineClose />
       </div>
     </div>

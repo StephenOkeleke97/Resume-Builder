@@ -2,11 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import Contact from "./components/Contact";
 import Header from "./components/Header";
+import uuid from "react-uuid";
 
 function App() {
   const [showSections, setShowSections] = useState(false);
   const sectionsOptions = useRef(null);
   const [children, setChildren] = useState([]);
+  const childrenRef = useRef();
+  childrenRef.current = children;
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -67,7 +70,7 @@ function App() {
   function createHeader() {
     setChildren([
       ...children,
-      <Header index={children.length + 1} remove={removeFromChildren} />,
+      <Header id={uuid()} remove={removeFromChildren} />,
     ]);
   }
 
@@ -81,9 +84,9 @@ function App() {
 
   function createLanguage() {}
 
-  function removeFromChildren(index) {
-    const temp = children;
-    temp.slice(index, 1);
+  function removeFromChildren(id) {
+    let temp = [...childrenRef.current];
+    temp = temp.filter((elem) => elem.props.id !== id);
     setChildren(temp);
   }
 
@@ -100,13 +103,23 @@ function App() {
       </div>
 
       <div className="create-section no-print" ref={sectionsOptions}>
-        <AiOutlinePlus size={30} onClick={() => setShowSections(true)} 
-        className={"clickable"}/>
+        <AiOutlinePlus
+          size={30}
+          onClick={() => setShowSections(true)}
+          className={"clickable"}
+        />
 
         <div className={`section-options ${showSections && "options-open"}`}>
           {sections.map((section, index) => {
             return (
-              <div className="section" key={index} onClick={section.create}>
+              <div
+                className="section"
+                key={index}
+                onClick={() => {
+                  section.create();
+                  setShowSections(false);
+                }}
+              >
                 <p>{section.name}</p>
               </div>
             );
@@ -115,8 +128,8 @@ function App() {
       </div>
 
       <div className="resume">
-        {children.map((child, index) => {
-          return <div key={index}>{child}</div>;
+        {children.map((child) => {
+          return <div key={uuid()}>{child}</div>;
         })}
       </div>
     </div>

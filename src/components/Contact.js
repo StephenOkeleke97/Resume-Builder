@@ -175,13 +175,15 @@ const Contact = () => {
             />
           </div>
 
-          <div
-            className="contact-type"
-            ref={options}
-            onClick={() => setShowOptions(true)}
-          >
-            <p>{type ? type : "Type"}</p>
-            <AiOutlineDown />
+          <div className="contact-type-container">
+            <div
+              className="contact-type"
+              ref={options}
+              onClick={() => setShowOptions(true)}
+            >
+              <p>{type ? type : "Type"}</p>
+              <AiOutlineDown />
+            </div>
 
             <div className={`contact-options ${showOptions && "contact-open"}`}>
               {types.map((t, index) => {
@@ -191,7 +193,10 @@ const Contact = () => {
                     className={`contact-optionitems ${
                       type === t.name && "contact-active"
                     }`}
-                    onClick={() => setType(t.name)}
+                    onClick={() => {
+                      setType(t.name);
+                      setShowOptions(false);
+                    }}
                   >
                     {t.name}
                   </div>

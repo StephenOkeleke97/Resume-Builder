@@ -183,6 +183,10 @@ h1 {
   margin-bottom: 5px;
 }
 
+.contact-type-container {
+  position: relative;
+}
+
 .contact-type {
   border: 1px solid rgb(199, 199, 199);
   padding: 4px 10px;
@@ -190,7 +194,6 @@ h1 {
   justify-content: space-between;
   cursor: pointer;
   margin-bottom: 20px;
-  position: relative;
 }
 
 .contact-options {
