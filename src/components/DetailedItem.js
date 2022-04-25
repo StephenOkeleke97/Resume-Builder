@@ -34,7 +34,7 @@ const DetailedItem = ({ id, remove }) => {
   const [detailItem, setDetailItem] = useState("");
 
   function addItem() {
-    if (!detailItem) {
+    if (!detailItem.trim()) {
       return alert("Item cannot be blank");
     }
     const temp = [...detailList];

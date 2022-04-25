@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import uuid from "react-uuid";
 import Tiles from "./components/Tiles";
 import Detailed from "./components/Detailed";
+import Language from "./components/Language";
 
 function App() {
   const [showSections, setShowSections] = useState(false);
@@ -85,7 +86,13 @@ function App() {
     ]);
   }
 
-  function createLanguage() {}
+  function createLanguage() {
+    const id = uuid();
+    setChildrenList([
+      ...childrenList,
+      <Language key={id} id={id} remove={removeFromChildren} />,
+    ]);
+  }
 
   function removeFromChildren(id) {
     let temp = [...childrenRef.current];
