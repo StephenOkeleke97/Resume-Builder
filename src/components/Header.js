@@ -12,7 +12,7 @@ const Header = ({ remove, id }) => {
   const [titleColor, setTitleColor] = useState("#8e8e8e");
 
   const [name, setName] = useState("Your Name");
-  const [title, setTitle] = useState("Yout Title");
+  const [title, setTitle] = useState("Your Title");
   const [description, setDescription] = useState("Summary");
 
   const colorIconColor = "dodgerblue";

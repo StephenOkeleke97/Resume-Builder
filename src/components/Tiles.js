@@ -3,12 +3,11 @@ import { AiOutlineClose } from "react-icons/ai";
 import { VscColorMode } from "react-icons/vsc";
 import uuid from "react-uuid";
 import TileItem from "./TileItem";
+import Title from "./Title";
 
 const Tiles = ({ id, remove }) => {
-  const colorIconColor = "dodgerblue";
-  const [title, setTitle] = useState("TITLE");
-  const [titleColor, setTitleColor] = useState("#6D6E71");
   const [backgroundColor, setBackgroundColor] = useState("#6D6E71");
+  const colorIconColor = "dodgerblue";
   const [tileItems, setTileItems] = useState([]);
   const [tileItem, setTileItem] = useState("");
   const input = useRef(null);
@@ -25,13 +24,6 @@ const Tiles = ({ id, remove }) => {
       document.removeEventListener("keypress", handleEnterKey);
     };
   }, [tileItem]);
-
-  const titleStyle = {
-    color: titleColor,
-    fontSize: "20px",
-    fontWeight: "600",
-    width: title.length + 1 + "ch",
-  };
 
   function handleAddItem() {
     if (!tileItem.trim()) return alert("Please add valid item");
@@ -52,31 +44,7 @@ const Tiles = ({ id, remove }) => {
 
   return (
     <div className="tiles-container">
-      <div className="header-editable">
-        <input
-          type={"text"}
-          value={title}
-          style={titleStyle}
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
-        />
-
-        <div className="no-print">
-          <label htmlFor={id.toString()}>
-            <VscColorMode color={colorIconColor} />
-          </label>
-          <input
-            type={"color"}
-            id={id.toString()}
-            value={titleColor}
-            onChange={(e) => {
-              setTitleColor(e.target.value);
-            }}
-            className="color-input"
-          />
-        </div>
-      </div>
+      <Title id={id} />
 
       <div className="tile-content">
         <div className="tile-item-container">
