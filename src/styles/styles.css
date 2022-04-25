@@ -339,6 +339,61 @@ h1 {
   margin-left: 10px;
 }
 
+.detailed-container {
+  padding: 10px 30px;
+  position: relative;
+}
+
+.detailed-item-container {
+  padding-top: 15px;
+  position: relative;
+}
+
+.detailed-item-timerange {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.detail-list {
+  font-size: 14px;
+}
+
+.detail-list ul {
+  list-style: none;
+}
+
+.detail-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.remove-detailitem {
+  transform: translateX(50px);
+  transition: transform 0.1s ease-in;
+}
+
+.detail-list-item:hover {
+  background-color: #ededed;
+}
+
+.detail-list-item:hover .remove-detailitem{
+  transform: translateX(0px);
+}
+
+.remove-detail {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+}
+
+.remove-detail p {
+  font-size: 12px;
+  color: dodgerblue;
+}
+
 @media print {
   .no-print {
     display: none;

@@ -1,18 +1,21 @@
 import React, { useState } from "react";
 import { VscColorMode } from "react-icons/vsc";
 
-const Title = ({ id }) => {
+const Title = ({ id, style, defaultColor, defaultText, onChange }) => {
   const colorIconColor = "dodgerblue";
-  const [title, setTitle] = useState("TITLE");
-  const [titleColor, setTitleColor] = useState("#6D6E71");
+  const [title, setTitle] = useState(defaultText ? defaultText : "TITLE");
+  const [titleColor, setTitleColor] = useState(
+    defaultColor ? defaultColor : "#6D6E71"
+  );
 
-  const titleStyle = {
+  const defaultStyle = {
     color: titleColor,
     fontSize: "20px",
-    fontWeight: "600",
+    fontWeight: "700",
     width: title.length + 1 + "ch",
   };
 
+  const titleStyle = style ? { ...defaultStyle, ...style } : defaultStyle;
   return (
     <div className="header-editable">
       <input
@@ -34,6 +37,7 @@ const Title = ({ id }) => {
           value={titleColor}
           onChange={(e) => {
             setTitleColor(e.target.value);
+            if (onChange) onChange(e.target.value);
           }}
           className="color-input"
         />

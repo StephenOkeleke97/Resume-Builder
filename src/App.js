@@ -4,6 +4,7 @@ import Contact from "./components/Contact";
 import Header from "./components/Header";
 import uuid from "react-uuid";
 import Tiles from "./components/Tiles";
+import Detailed from "./components/Detailed";
 
 function App() {
   const [showSections, setShowSections] = useState(false);
@@ -39,31 +40,15 @@ function App() {
       create: createContact,
     },
     {
-      name: "Area of Expertise",
+      name: "Tile Section",
       create: createTiles,
     },
     {
-      name: "Work Experience",
-      create: createDescription,
+      name: "Detailed Section",
+      create: createDetailed,
     },
     {
-      name: "Technical Skills",
-      create: createTiles,
-    },
-    {
-      name: "Volunteer Experience",
-      create: createDescription,
-    },
-    {
-      name: "Personal Projects",
-      create: createDescription,
-    },
-    {
-      name: "Education",
-      create: createDescription,
-    },
-    {
-      name: "Languages",
+      name: "Language Section",
       create: createLanguage,
     },
   ];
@@ -84,7 +69,13 @@ function App() {
     ]);
   }
 
-  function createDescription() {}
+  function createDetailed() {
+    const id = uuid();
+    setChildrenList([
+      ...childrenList,
+      <Detailed key={id} id={id} remove={removeFromChildren} />,
+    ]);
+  }
 
   function createTiles() {
     const id = uuid();
