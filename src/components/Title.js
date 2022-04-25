@@ -17,7 +17,7 @@ const Title = ({ id, style, defaultColor, defaultText, onChange }) => {
 
   const titleStyle = style ? { ...defaultStyle, ...style } : defaultStyle;
   return (
-    <div className="header-editable">
+    <div className={`header-editable ${!title.trim() && "no-print"}`}>
       <input
         type={"text"}
         value={title}
