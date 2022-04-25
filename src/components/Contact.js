@@ -1,11 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
-import { AiOutlineClose, AiOutlineDown } from "react-icons/ai";
+import {
+  AiOutlineClose,
+  AiOutlineDown,
+  AiFillGithub,
+  AiFillLinkedin,
+} from "react-icons/ai";
 import Modal from "react-modal";
 import ContactItem from "./contactwidgets/ContactItem";
 import { MdEmail } from "react-icons/md";
-import { AiFillGithub } from "react-icons/ai";
 import LinkedContactItem from "./contactwidgets/LinkedContactItem";
 import { VscColorMode } from "react-icons/vsc";
+import { ImLocation } from "react-icons/im";
+import { MdSmartphone } from "react-icons/md";
+import { CgWebsite } from "react-icons/cg";
+import uuid from "react-uuid";
 
 const Contact = ({ id, remove }) => {
   const defaultType = "Email";
@@ -17,6 +25,8 @@ const Contact = ({ id, remove }) => {
   const options = useRef(null);
 
   const [contactList, setContactList] = useState([]);
+  const contactListRef = useRef(null);
+  contactListRef.current = contactList;
 
   const iconSize = 20;
   const [iconColor, setIconColor] = useState("#000");
@@ -25,7 +35,7 @@ const Contact = ({ id, remove }) => {
     color: iconColor,
   };
 
-  const icons = useRef([]);
+  const icons = useRef(new Array());
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -83,6 +93,8 @@ const Contact = ({ id, remove }) => {
   ];
 
   function createEmail() {
+    const id = uuid();
+
     const icon = (
       <div style={iconStyle} ref={(icon) => icons.current.push(icon)}>
         <MdEmail size={iconSize} />
@@ -90,13 +102,37 @@ const Contact = ({ id, remove }) => {
     );
     setContactList([
       ...contactList,
-      <ContactItem icon={icon} info={contactInfo} />,
+      <ContactItem
+        id={id}
+        icon={icon}
+        info={contactInfo}
+        remove={handleRemoveContact}
+      />,
     ]);
   }
 
-  function createAddress() {}
+  function createAddress() {
+    const id = uuid();
+
+    const icon = (
+      <div style={iconStyle} ref={(icon) => icons.current.push(icon)}>
+        <ImLocation size={iconSize} />
+      </div>
+    );
+    setContactList([
+      ...contactList,
+      <ContactItem
+        id={id}
+        icon={icon}
+        info={contactInfo}
+        remove={handleRemoveContact}
+      />,
+    ]);
+  }
 
   function createGitHub() {
+    const id = uuid();
+
     const icon = (
       <div style={iconStyle} ref={(icon) => icons.current.push(icon)}>
         <AiFillGithub size={iconSize} />
@@ -104,15 +140,71 @@ const Contact = ({ id, remove }) => {
     );
     setContactList([
       ...contactList,
-      <LinkedContactItem icon={icon} info={contactInfo} />,
+      <LinkedContactItem
+        id={id}
+        icon={icon}
+        info={contactInfo}
+        remove={handleRemoveContact}
+      />,
     ]);
   }
 
-  function createNumber() {}
+  function createNumber() {
+    const id = uuid();
 
-  function createLinkedIn() {}
+    const icon = (
+      <div style={iconStyle} ref={(icon) => icons.current.push(icon)}>
+        <MdSmartphone size={iconSize} />
+      </div>
+    );
+    setContactList([
+      ...contactList,
+      <ContactItem
+        id={id}
+        icon={icon}
+        info={contactInfo}
+        remove={handleRemoveContact}
+      />,
+    ]);
+  }
 
-  function createWebsite() {}
+  function createLinkedIn() {
+    const id = uuid();
+
+    const icon = (
+      <div style={iconStyle} ref={(icon) => icons.current.push(icon)}>
+        <AiFillLinkedin size={iconSize} />
+      </div>
+    );
+    setContactList([
+      ...contactList,
+      <LinkedContactItem
+        id={id}
+        icon={icon}
+        info={contactInfo}
+        remove={handleRemoveContact}
+      />,
+    ]);
+  }
+
+  function createWebsite() {
+    const id = uuid();
+
+    const icon = (
+      <div style={iconStyle} ref={(icon) => icons.current.push(icon)}>
+        <CgWebsite size={iconSize} />
+      </div>
+    );
+    setContactList([
+      ...contactList,
+      <LinkedContactItem
+        id={id}
+        icon={icon}
+        info={contactInfo}
+        remove={handleRemoveContact}
+      />,
+    ]);
+  }
 
   function handleAddContact() {
     if (!contactInfo) {
@@ -129,6 +221,13 @@ const Contact = ({ id, remove }) => {
     setType(defaultType);
     setContactInfo("");
     setOpenModal(false);
+  }
+
+  function handleRemoveContact(id) {
+    let temp = [...contactListRef.current];
+    temp = temp.filter((contact) => contact.props.id !== id);
+
+    setContactList(temp);
   }
   return (
     <div className="contact">
@@ -156,7 +255,7 @@ const Contact = ({ id, remove }) => {
           value={iconColor}
           onChange={(e) => {
             icons.current.forEach((icon) => {
-              icon.style.color = e.target.value;
+              if (icon) icon.style.color = e.target.value;
             });
             setIconColor(e.target.value);
           }}
