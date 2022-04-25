@@ -3,6 +3,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import Contact from "./components/Contact";
 import Header from "./components/Header";
 import uuid from "react-uuid";
+import Tiles from "./components/Tiles";
 
 function App() {
   const [showSections, setShowSections] = useState(false);
@@ -85,7 +86,13 @@ function App() {
 
   function createDescription() {}
 
-  function createTiles() {}
+  function createTiles() {
+    const id = uuid();
+    setChildrenList([
+      ...childrenList,
+      <Tiles key={id} id={id} remove={removeFromChildren} />,
+    ]);
+  }
 
   function createLanguage() {}
 

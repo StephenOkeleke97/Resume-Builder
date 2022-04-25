@@ -49,7 +49,7 @@ const Header = ({ remove, id }) => {
     window.addEventListener("afterprint", handleAfterPrint);
 
     return () => {};
-  }, []);
+  }, [description]);
 
   const nameStyle = {
     color: nameColor,

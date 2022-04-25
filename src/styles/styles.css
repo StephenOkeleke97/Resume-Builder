@@ -135,7 +135,8 @@ h1 {
 }
 
 .contact {
-  padding: 0px 30px;
+  padding: 10px 30px;
+  padding-top: 0;
   background-color: rgb(243, 243, 243);
   -webkit-print-color-adjust: exact;
   position: relative;
@@ -250,7 +251,8 @@ h1 {
 
 .contact-item {
   display: flex;
-  padding: 10px;
+  padding: 0 10px;
+  margin-top: 10px;
   position: relative;
   overflow: hidden;
 }
@@ -278,6 +280,63 @@ h1 {
   margin-left: 10px;
   margin-top: 3px;
   cursor: pointer;
+}
+
+.tiles-container {
+  padding: 10px 30px;
+  position: relative;
+}
+
+.tile-content {
+  padding: 10px 0;
+}
+
+.tile-content input {
+  margin-right: 10px;
+  height: 40px;
+  padding: 0 10px;
+  width: 450px;
+  outline: none;
+  margin-top: 10px;
+}
+
+.tile-content button {
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  color: dodgerblue;
+}
+
+.tile-item-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tile-item {
+  margin-right: 5px;
+  margin-bottom: 5px;
+  padding: 3px 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  -webkit-print-color-adjust: exact;
+}
+
+.tile-item .clickable {
+  margin-left: 20px;
+}
+
+.tile-input {
+  display: flex;
+  align-items: center;
+}
+
+.align {
+  display: flex;
+  align-items: center;
+}
+
+.tile-input .align {
+  margin-left: 10px;
 }
 
 @media print {
