@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import Title from "./Title";
-// this comment tells babel to convert jsx to calls to a function called jsx instead of React.createElement
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 import { AiOutlineClose } from "react-icons/ai";
 import Modal from "react-modal/lib/components/Modal";
 
-const DetailedItem = ({ id, remove, titleColor }) => {
+const DetailedItem = ({ id, remove }) => {
   const customStyles = {
     content: {
       top: "50%",
@@ -31,13 +28,6 @@ const DetailedItem = ({ id, remove, titleColor }) => {
     fontSize: "13px",
     fontStyle: "italic",
   };
-
-  const liStyle = css`
-    &::before {
-      content: "- ";
-      color: ${titleColor};
-    }
-  `;
 
   const [modalOpen, setOpenModal] = useState(false);
   const [detailList, setDetailList] = useState([]);
@@ -102,7 +92,7 @@ const DetailedItem = ({ id, remove, titleColor }) => {
           {detailList.map((detail, index) => {
             return (
               <div className="detail-list-item">
-                <li css={liStyle} key={index}>
+                <li>
                   {detail}
                 </li>
                 <div
@@ -144,9 +134,11 @@ const DetailedItem = ({ id, remove, titleColor }) => {
         </div>
       </Modal>
 
-      <div className="remove-detail no-print clickable"
-      onClick={() => remove(id)}>
-          <p>Remove</p>
+      <div
+        className="remove-detail no-print clickable"
+        onClick={() => remove(id)}
+      >
+        <p>Remove</p>
       </div>
     </div>
   );

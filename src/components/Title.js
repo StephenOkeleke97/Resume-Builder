@@ -12,7 +12,7 @@ const Title = ({ id, style, defaultColor, defaultText, onChange }) => {
     color: titleColor,
     fontSize: "20px",
     fontWeight: "700",
-    width: title.length + 1 + "ch",
+    width: title.length + 2 + "ch",
   };
 
   const titleStyle = style ? { ...defaultStyle, ...style } : defaultStyle;
