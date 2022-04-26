@@ -104,10 +104,17 @@ function App() {
     <div className="App">
       <div className="intro no-print">
         <h1>Resume Builder</h1>
-        <p>Important: Your Information is <b>NOT</b> stored anywhere. All progress will be <b>LOST</b> when 
-        the page is refreshed or the tab is closed.</p>
+        <p>
+          Important: Your Information is <b>NOT</b> stored anywhere. All
+          progress will be <b>LOST</b> when the page is refreshed or the tab is
+          closed.
+        </p>
 
         <p>Click the plus sign to begin.</p>
+        <p>
+          To save resume, press command + p on mac or ctrl + p on windows and
+          choose the save to pdf option
+        </p>
       </div>
 
       <div className="create-section no-print" ref={sectionsOptions}>
