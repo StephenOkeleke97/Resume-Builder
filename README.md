@@ -12,7 +12,7 @@
     An application made to add style to your resumes.
     <br />
     <br />
-    <a href="">View Application</a>
+    <a href="https://stephenokeleke97.github.io/resumebuilder/">View Application</a>
   </p>
 </div>
 
@@ -96,7 +96,7 @@ Don't forget to give the project a star! Thanks again!
 
 Stephen Okeleke - stephenokeleke@yahoo.com
 
-Project Link: [Resume Builder](https://github.com/StephenOkeleke97/Resume-Builder)
+Project Link: [Resume Builder](https://github.com/StephenOkeleke97/resumebuilder)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
