@@ -27,11 +27,6 @@ const Header = ({ remove, id }) => {
 
     nameInput.current.addEventListener("input", resizeInput);
     titleInput.current.addEventListener("input", resizeInput);
-
-    return () => {
-      nameInput.current.removeEventListener("input", resizeInput);
-      titleInput.current.removeEventListener("input", resizeInput);
-    };
   }, []);
 
   useEffect(() => {
@@ -56,7 +51,6 @@ const Header = ({ remove, id }) => {
     window.addEventListener("afterprint", handleAfterPrint);
 
     return () => {
-      descInput.current.removeEventListener("input", resizeTextArea);
       window.removeEventListener("beforeprint", handleBeforePrint);
       window.removeEventListener("afterprint", handleAfterPrint);
     };
@@ -69,10 +63,6 @@ const Header = ({ remove, id }) => {
     }
 
     imageInputRef.current.addEventListener("change", handleUploadImage);
-
-    return () => {
-      imageInputRef.current.removeEventListener("change", handleUploadImage);
-    };
   }, []);
 
   const nameStyle = {

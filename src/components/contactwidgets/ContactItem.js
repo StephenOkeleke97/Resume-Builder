@@ -6,7 +6,10 @@ const ContactItem = ({ icon, info, id, remove }) => {
     <div className="contact-item">
       {icon}
       <p>{info}</p>
-      <div className="remove-contactinfo clickable no-print" onClick={() => remove(id)}>
+      <div
+        className="remove-contactinfo clickable no-print"
+        onClick={() => remove(id)}
+      >
         <AiOutlineClose />
       </div>
     </div>

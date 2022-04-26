@@ -91,10 +91,8 @@ const DetailedItem = ({ id, remove }) => {
         <ul>
           {detailList.map((detail, index) => {
             return (
-              <div className="detail-list-item">
-                <li>
-                  {detail}
-                </li>
+              <div key={index} className="detail-list-item">
+                <li>{detail}</li>
                 <div
                   className="remove-detailitem clickable no-print"
                   onClick={() => removeItem(index)}

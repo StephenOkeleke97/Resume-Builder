@@ -41,8 +41,12 @@ const Detailed = ({ id, remove }) => {
       <Title id={id} onChange={setTitleColor} />
 
       <div>
-        {details.map((detail) => {
-          return <div css={liStyle}>{detail}</div>;
+        {details.map((detail, index) => {
+          return (
+            <div key={index} css={liStyle}>
+              {detail}
+            </div>
+          );
         })}
       </div>
 
