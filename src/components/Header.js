@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { VscColorMode } from "react-icons/vsc";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineUpload } from "react-icons/ai";
 
 const Header = ({ remove, id }) => {
   const nameInput = useRef(null);
   const titleInput = useRef(null);
   const descInput = useRef(null);
   const descPrint = useRef(null);
+  const imageRef = useRef(null);
+  const imageInputRef = useRef(null);
 
   const [nameColor, setNameColor] = useState("#000");
   const [titleColor, setTitleColor] = useState("#8e8e8e");
@@ -25,6 +27,11 @@ const Header = ({ remove, id }) => {
 
     nameInput.current.addEventListener("input", resizeInput);
     titleInput.current.addEventListener("input", resizeInput);
+
+    return () => {
+      nameInput.current.removeEventListener("input", resizeInput);
+      titleInput.current.removeEventListener("input", resizeInput);
+    };
   }, []);
 
   useEffect(() => {
@@ -48,8 +55,25 @@ const Header = ({ remove, id }) => {
     window.addEventListener("beforeprint", handleBeforePrint);
     window.addEventListener("afterprint", handleAfterPrint);
 
-    return () => {};
+    return () => {
+      descInput.current.removeEventListener("input", resizeTextArea);
+      window.removeEventListener("beforeprint", handleBeforePrint);
+      window.removeEventListener("afterprint", handleAfterPrint);
+    };
   }, [description]);
+
+  useEffect(() => {
+    function handleUploadImage(e) {
+      const [File] = e.target.files;
+      imageRef.current.src = URL.createObjectURL(File);
+    }
+
+    imageInputRef.current.addEventListener("change", handleUploadImage);
+
+    return () => {
+      imageInputRef.current.removeEventListener("change", handleUploadImage);
+    };
+  }, []);
 
   const nameStyle = {
     color: nameColor,
@@ -78,7 +102,13 @@ const Header = ({ remove, id }) => {
   return (
     <div className="header">
       <div className="header-image">
-        <img alt="candidate" src="/image/placeholder.png" />
+        <img ref={imageRef} alt="candidate" src="/image/placeholder.png" />
+
+        <div className="add-image no-print">
+          <label htmlFor="upload">
+            <AiOutlineUpload className="clickable" />
+          </label>
+        </div>
       </div>
 
       <div className="header-description">
@@ -151,6 +181,15 @@ const Header = ({ remove, id }) => {
 
       <div className="remove no-print" onClick={() => remove(id)}>
         <AiOutlineClose />
+      </div>
+
+      <div className="upload-input no-print">
+        <input
+          type={"file"}
+          id="upload"
+          accept="image/png, image/jpeg"
+          ref={imageInputRef}
+        />
       </div>
     </div>
   );
