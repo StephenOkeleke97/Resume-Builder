@@ -35,7 +35,7 @@ const Contact = ({ id, remove }) => {
     color: iconColor,
   };
 
-  const icons = useRef(new Array());
+  const icons = useRef([]);
 
   useEffect(() => {
     function handleClickOutside(e) {

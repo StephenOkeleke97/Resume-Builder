@@ -7,7 +7,7 @@ const LinkedContactItem = ({ icon, info, id, remove }) => {
     <div className="contact-item">
       {icon}
       <p>{info}</p>
-      <a href={info} target="_blank">
+      <a href={info} target="_blank" rel="noreferrer">
         <BiLinkExternal color="dodgerblue" />
       </a>
       <div className="remove-contactinfo clickable" onClick={() => remove(id)}>
