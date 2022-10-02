@@ -1,14 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { VscColorMode } from "react-icons/vsc";
-import { AiOutlineClose, AiOutlineUpload } from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
 
 const Header = ({ remove, id }) => {
   const nameInput = useRef(null);
   const titleInput = useRef(null);
   const descInput = useRef(null);
   const descPrint = useRef(null);
-  const imageRef = useRef(null);
-  const imageInputRef = useRef(null);
 
   const [nameColor, setNameColor] = useState("#000");
   const [titleColor, setTitleColor] = useState("#8e8e8e");
@@ -56,15 +54,6 @@ const Header = ({ remove, id }) => {
     };
   }, [description]);
 
-  useEffect(() => {
-    function handleUploadImage(e) {
-      const [File] = e.target.files;
-      imageRef.current.src = URL.createObjectURL(File);
-    }
-
-    imageInputRef.current.addEventListener("change", handleUploadImage);
-  }, []);
-
   const nameStyle = {
     color: nameColor,
     fontSize: "30px",
@@ -91,15 +80,6 @@ const Header = ({ remove, id }) => {
 
   return (
     <div className="header">
-      <div className="header-image">
-        <img ref={imageRef} alt="candidate" src="/image/placeholder.png" />
-
-        <div className="add-image no-print">
-          <label htmlFor="upload">
-            <AiOutlineUpload className="clickable" />
-          </label>
-        </div>
-      </div>
 
       <div className="header-description">
         <div className="header-editable">
@@ -171,15 +151,6 @@ const Header = ({ remove, id }) => {
 
       <div className="remove no-print" onClick={() => remove(id)}>
         <AiOutlineClose />
-      </div>
-
-      <div className="upload-input no-print">
-        <input
-          type={"file"}
-          id="upload"
-          accept="image/png, image/jpeg"
-          ref={imageInputRef}
-        />
       </div>
     </div>
   );
