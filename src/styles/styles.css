@@ -128,7 +128,7 @@ h1 {
 }
 
 .header-description {
-  width: calc(100vw - 280px);
+  width: 100%;
   text-align: justify;
 }
 
