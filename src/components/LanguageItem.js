@@ -1,9 +1,8 @@
 import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
+import { MdOutlineEdit } from "react-icons/md";
 
-const LanguageItem = ({ language, id, remove, backgroundColor }) => {
-  if (isNaN(language.percentage)) throw new Error("Invalid Percentage");
-
+const LanguageItem = ({ remove, edit, obj, color }) => {
   function hexToRgbA(hex) {
     let color;
     if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
@@ -21,7 +20,7 @@ const LanguageItem = ({ language, id, remove, backgroundColor }) => {
     throw new Error("Bad Hex");
   }
 
-  const bg = hexToRgbA(backgroundColor);
+  const bg = hexToRgbA(color);
   const blockHeight = 40;
 
   const blockStyle = {
@@ -34,23 +33,29 @@ const LanguageItem = ({ language, id, remove, backgroundColor }) => {
   };
 
   const innerBlockStyle = {
-    backgroundColor: backgroundColor,
-    height: blockHeight * (language.percentage / 100) + "px",
+    backgroundColor: color,
+    height: blockHeight * (parseInt(obj.percentage) / 100) + "px",
   };
 
   return (
     <div className="language-item">
       <div style={blockStyle} className="box">
         <div style={innerBlockStyle} />
+        <div
+          className="remove-language edit-bar no-print clickable"
+          onClick={() => edit(obj)}
+        >
+          <MdOutlineEdit />
+        </div>
 
         <div
           className="remove-language no-print clickable"
-          onClick={() => remove(id)}
+          onClick={() => remove(obj.id)}
         >
           <AiOutlineClose />
         </div>
       </div>
-      <p>{language.language}</p>
+      <p>{obj.value}</p>
     </div>
   );
 };

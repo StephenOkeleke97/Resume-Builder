@@ -2,20 +2,19 @@ import React, { useEffect, useRef, useState } from "react";
 import { VscColorMode } from "react-icons/vsc";
 import { AiOutlineClose } from "react-icons/ai";
 
-const Header = ({ remove, id }) => {
+const Header = ({ remove, obj, onChange }) => {
   const nameInput = useRef(null);
   const titleInput = useRef(null);
   const descInput = useRef(null);
   const descPrint = useRef(null);
 
-  const [nameColor, setNameColor] = useState("#000");
-  const [titleColor, setTitleColor] = useState("#8e8e8e");
-
-  const [name, setName] = useState("Your Name");
-  const [title, setTitle] = useState("Your Title");
-  const [description, setDescription] = useState("Summary");
+  const [myObj, setMyObj] = useState(obj);
 
   const colorIconColor = "dodgerblue";
+
+  useEffect(() => {
+    onChange(myObj);
+  }, [myObj]);
 
   useEffect(() => {
     function resizeInput(event) {
@@ -36,7 +35,7 @@ const Header = ({ remove, id }) => {
 
     function handleBeforePrint() {
       descInput.current.style.display = "none";
-      descPrint.current.innerHTML = description;
+      descPrint.current.innerHTML = myObj.summary.value;
     }
 
     function handleAfterPrint() {
@@ -52,20 +51,20 @@ const Header = ({ remove, id }) => {
       window.removeEventListener("beforeprint", handleBeforePrint);
       window.removeEventListener("afterprint", handleAfterPrint);
     };
-  }, [description]);
+  }, [myObj]);
 
   const nameStyle = {
-    color: nameColor,
+    color: myObj.name.color,
     fontSize: "30px",
     fontWeight: "500",
-    width: name.length + 1 + "ch",
+    width: myObj.name.value.length + 1 + "ch",
   };
 
   const titleStyle = {
-    color: titleColor,
+    color: myObj.title.color,
     fontWeight: "400",
     fontSize: "20px",
-    width: title.length + 1 + "ch",
+    width: myObj.title.value.length + 1 + "ch",
     marginBottom: "8px",
   };
 
@@ -85,24 +84,36 @@ const Header = ({ remove, id }) => {
         <div className="header-editable">
           <input
             type={"text"}
-            value={name}
+            value={myObj.name.value}
             style={nameStyle}
             ref={nameInput}
             onChange={(e) => {
-              setName(e.target.value);
+              setMyObj((prevData) => ({
+                ...prevData,
+                name: {
+                  ...prevData.name,
+                  value: e.target.value
+                },
+              }));
             }}
           />
 
           <div className="no-print">
-            <label htmlFor={"name" + id}>
+            <label htmlFor={"name" + myObj.id}>
               <VscColorMode color={colorIconColor} />
             </label>
             <input
               type={"color"}
-              id={"name" + id}
-              value={nameColor}
+              id={"name" + myObj.id}
+              value={obj.name.color}
               onChange={(e) => {
-                setNameColor(e.target.value);
+                setMyObj((prevData) => ({
+                  ...prevData,
+                  name: {
+                    ...prevData.name,
+                    color: e.target.value
+                  },
+                }));
               }}
               className="color-input"
             />
@@ -112,24 +123,36 @@ const Header = ({ remove, id }) => {
         <div className="header-editable">
           <input
             type={"text"}
-            value={title}
+            value={myObj.title.value}
             style={titleStyle}
             ref={titleInput}
             onChange={(e) => {
-              setTitle(e.target.value);
+              setMyObj((prevData) => ({
+                ...prevData,
+                title: {
+                  ...prevData.title,
+                  value: e.target.value
+                },
+              }));
             }}
           />
 
           <div className="no-print">
-            <label htmlFor={"title" + id}>
+            <label htmlFor={"title" + myObj.id}>
               <VscColorMode color={colorIconColor} />
             </label>
             <input
               type={"color"}
-              id={"title" + id}
-              value={titleColor}
+              id={"title" + myObj.id}
+              value={myObj.title.color}
               onChange={(e) => {
-                setTitleColor(e.target.value);
+                setMyObj((prevData) => ({
+                  ...prevData,
+                  title: {
+                    ...prevData.title,
+                    color: e.target.value
+                  },
+                }));
               }}
               className="color-input"
             />
@@ -138,10 +161,16 @@ const Header = ({ remove, id }) => {
 
         <div className="header-editable">
           <textarea
-            value={description}
+            value={myObj.summary.value}
             style={descriptionStyle}
             onChange={(e) => {
-              setDescription(e.target.value);
+              setMyObj((prevData) => ({
+                ...prevData,
+                summary: {
+                  ...prevData.summary,
+                  value: e.target.value
+                },
+              }));
             }}
             ref={descInput}
           />
@@ -149,7 +178,7 @@ const Header = ({ remove, id }) => {
         </div>
       </div>
 
-      <div className="remove no-print" onClick={() => remove(id)}>
+      <div className="remove no-print" onClick={() => remove(myObj.id)}>
         <AiOutlineClose />
       </div>
     </div>

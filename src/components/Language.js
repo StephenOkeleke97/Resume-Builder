@@ -1,16 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import Modal from "react-modal/lib/components/Modal";
 import uuid from "react-uuid";
 import LanguageItem from "./LanguageItem";
 import Title from "./Title";
+import ReactDragListView from "react-drag-listview/lib/index.js";
+import { VscColorMode } from "react-icons/vsc";
 
-const Language = ({ id, remove }) => {
-  const [titleColor, setTitleColor] = useState("#6D6E71");
-  const [languages, setLanguages] = useState([]);
+const Language = ({ remove, onChange, obj }) => {
+  const colorIconColor = "dodgerblue";
   const [modalOpen, setOpenModal] = useState(false);
-  const [language, setLanguage] = useState("");
-  const [percentage, setPercentage] = useState("");
+
+  const defaultItem = {
+    value: "",
+    id: "",
+    percentage: "",
+  };
+  const [detailItem, setDetailItem] = useState(defaultItem);
+
+  const [myObj, setMyObj] = useState(obj);
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  useEffect(() => {
+    onChange(myObj);
+  }, [myObj]);
+
+  const onDragEnd = (fromIndex, toIndex) => {
+    const newObj = { ...myObj };
+    const item = newObj.bars.splice(fromIndex, 1)[0];
+    newObj.bars.splice(toIndex, 0, item);
+    setMyObj(newObj);
+  };
+
+  const dragProps = {
+    onDragEnd,
+    nodeSelector: ".language-item",
+    handleSelector: ".language-item",
+  };
 
   const customStyles = {
     content: {
@@ -26,76 +52,122 @@ const Language = ({ id, remove }) => {
     },
   };
 
-  function closeModal() {
-    setLanguage("");
-    setPercentage("");
-    setOpenModal(false);
+  function editItem(item) {
+    setDetailItem(item);
+    setIsEditMode(true);
+    setOpenModal(true);
   }
 
-  function addLanguage() {
-    if (!language.trim() || !percentage.trim()) {
+  function handleEditItem() {
+    if (!detailItem.value.trim() || !detailItem.percentage.trim()) {
       return alert("Invalid Inputs");
     }
 
-    const temp = [...languages];
-    temp.push({
-      language: language,
-      percentage: percentage,
+    if (isNaN(detailItem.percentage)) {
+      return alert("Percentage must be a number");
+    }
+
+    const newObj = { ...myObj };
+    const index = newObj.bars.findIndex((item) => item.id === detailItem.id);
+    newObj.bars[index] = detailItem;
+    setMyObj(newObj);
+
+    closeModal();
+  }
+
+  function closeModal() {
+    setOpenModal(false);
+    setDetailItem(defaultItem);
+    setIsEditMode(false);
+  }
+
+  function addLanguage() {
+    if (!detailItem.value.trim() || !detailItem.percentage.trim()) {
+      return alert("Invalid Inputs");
+    }
+
+    if (isNaN(detailItem.percentage)) {
+      return alert("Percentage must be a number");
+    }
+
+    const newObj = { ...myObj };
+    newObj.bars.push({
       id: uuid(),
+      value: detailItem.value,
+      percentage: detailItem.percentage,
     });
-    setLanguages(temp);
+    setMyObj(newObj);
 
     closeModal();
   }
 
   function removeLanguage(id) {
-    const temp = languages.filter((language) => language.id !== id);
-    setLanguages(temp);
+    const newObj = { ...myObj };
+    newObj.bars = newObj.bars.filter((item) => item.id !== id);
+    setMyObj(newObj);
+  }
+
+  function changeTitle(title) {
+    const newObj = { ...myObj };
+    newObj["title"] = title;
+    setMyObj(newObj);
   }
 
   return (
     <div className="language-container">
-      <Title id={id} onChange={setTitleColor} />
+      <Title title={myObj.title} onChange={changeTitle} id={myObj.id} />
 
-      <div className="language-item-container">
-        {languages.map((language) => {
-          return (
-            <LanguageItem
-              key={language.id}
-              id={language.id}
-              language={language}
-              remove={removeLanguage}
-              backgroundColor={titleColor}
-            />
-          );
-        })}
-      </div>
+      <ReactDragListView {...dragProps}>
+        <div className="language-item-container">
+          {myObj.bars.map((bar) => {
+            return (
+              <LanguageItem
+                key={bar.id}
+                obj={bar}
+                remove={removeLanguage}
+                edit={editItem}
+                color={myObj.color}
+              />
+            );
+          })}
+        </div>
+      </ReactDragListView>
 
       <Modal isOpen={modalOpen} style={customStyles} ariaHideApp={false}>
         <div className="contact-modal">
-          <h1>LANGUAGE</h1>
+          <h1>ITEM</h1>
           <div className="contact-input">
             <input
-              value={language}
-              placeholder="Add Language"
-              onChange={(e) => setLanguage(e.target.value)}
+              value={detailItem.value}
+              placeholder={`${isEditMode ? "Edit" : "Add"} Item`}
+              onChange={(e) => {
+                setDetailItem((prevData) => ({
+                  ...prevData,
+                  value: e.target.value,
+                }));
+              }}
             />
           </div>
 
           <div className="contact-input">
             <input
-              value={percentage}
-              placeholder="Percentage of Fluency"
-              onChange={(e) => setPercentage(e.target.value)}
+              value={detailItem.percentage}
+              placeholder="Percentage"
+              onChange={(e) => {
+                setDetailItem((prevData) => ({
+                  ...prevData,
+                  percentage: e.target.value,
+                }));
+              }}
               type="number"
             />
           </div>
 
           <button
             className="contact-add-button clickable"
-            onClick={addLanguage}
+            onClick={isEditMode ? handleEditItem : addLanguage}
           >
-            Add
+            {`${isEditMode ? "Edit" : "Add"} Item`}
           </button>
 
           <div className="close-modal" onClick={closeModal}>
@@ -104,14 +176,29 @@ const Language = ({ id, remove }) => {
         </div>
       </Modal>
 
-      <div
-        className="contact-tools no-print"
-        onClick={() => setOpenModal(true)}
-      >
-        <p className="contact-add">Add Language</p>
+      <div className="contact-tools no-print">
+        <p className="contact-add" onClick={() => setOpenModal(true)}>
+          Add
+        </p>
+
+        <label htmlFor={"iconcolor" + myObj.id} className="clickable">
+          <VscColorMode color={colorIconColor}/>
+        </label>
+        <input
+          type={"color"}
+          id={"iconcolor" + myObj.id}
+          value={myObj.color}
+          onChange={(e) => {
+            setMyObj((prevData) => ({
+              ...prevData,
+              color: e.target.value,
+            }));
+          }}
+          className="color-input"
+        />
       </div>
 
-      <div className="remove no-print" onClick={() => remove(id)}>
+      <div className="remove no-print" onClick={() => remove(myObj.id)}>
         <AiOutlineClose />
       </div>
     </div>

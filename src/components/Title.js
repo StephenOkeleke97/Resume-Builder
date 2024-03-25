@@ -1,29 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { VscColorMode } from "react-icons/vsc";
 
-const Title = ({ id, style, defaultColor, defaultText, onChange }) => {
+const Title = ({ id, style, title, onChange }) => {
   const colorIconColor = "dodgerblue";
-  const [title, setTitle] = useState(defaultText ? defaultText : "TITLE");
-  const [titleColor, setTitleColor] = useState(
-    defaultColor ? defaultColor : "#6D6E71"
-  );
+  const [myObj, setMyObj] = useState(title);
+
+  useEffect(() => {
+    onChange(myObj);
+  }, [myObj]);
 
   const defaultStyle = {
-    color: titleColor,
+    color: myObj.color,
     fontSize: "20px",
     fontWeight: "700",
-    width: title.length + 2 + "ch",
+    width: myObj.value.length + 2 + "ch",
   };
 
   const titleStyle = style ? { ...defaultStyle, ...style } : defaultStyle;
   return (
-    <div className={`header-editable ${!title.trim() && "no-print"}`}>
+    <div className={`header-editable ${!myObj.value.trim() && "no-print"}`}>
       <input
         type={"text"}
-        value={title}
+        value={myObj.value}
         style={titleStyle}
         onChange={(e) => {
-          setTitle(e.target.value);
+          setMyObj((prevData) => ({
+            ...prevData,
+            value: e.target.value,
+          }));
         }}
       />
 
@@ -34,10 +38,12 @@ const Title = ({ id, style, defaultColor, defaultText, onChange }) => {
         <input
           type={"color"}
           id={id.toString()}
-          value={titleColor}
+          value={myObj.color}
           onChange={(e) => {
-            setTitleColor(e.target.value);
-            if (onChange) onChange(e.target.value);
+            setMyObj((prevData) => ({
+              ...prevData,
+              color: e.target.value,
+            }));
           }}
           className="color-input"
         />
